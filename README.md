@@ -16,24 +16,28 @@
 
 ## Quick start
 
+> Don't have time to download this mess? Just download the latest EXE version [here](https://github.com/WTRMLNv1/VaultMLN/releases/tag/v1.0)
+
 Prerequisites:
 
 - Python 3.10+ (3.11 recommended)
-- `cryptography` package
+- `cryptography`, and `customtkinter` package
 
 Install the dependency:
 
-```bash
+```bash install cryptography
 pip install cryptography
 ```
-
+```bash install customtkinter
+pip install customtkinter
+```
 Run the app:
 
 ```bash
 python main.py
 ```
 
-This launches the UI which will guide you through entering your master password and using the vault.
+This launches the UI, which will guide you through entering your master password and using the vault.
 
 ## Typical workflow
 
