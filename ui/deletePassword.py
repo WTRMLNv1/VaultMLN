@@ -42,7 +42,7 @@ class deletePasswordScreen:
         self.delete_button = add_buttons(self.frame, text="Delete Selected", colors_dict=self.colors, command=self.confirm_and_delete)
         self.delete_button.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.4)
 
-        self.status_label = create_label(self.frame, "No selection", text_color=self.text_color, size=14)
+        self.status_label = create_label(self.frame, "No selection", size=14)
         self.status_label.place(relx=0.5, rely=0.65, anchor=CENTER)
 
     def refresh_list(self):
