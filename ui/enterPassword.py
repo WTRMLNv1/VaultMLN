@@ -1,7 +1,7 @@
 # enterPassword.py
 import customtkinter as ctk
 from customtkinter import CENTER
-from ui.helpers import create_title, create_label, add_buttons, divider, DEFAULT_FONT
+from ui.helpers import create_title, create_label, add_buttons, divider, get_colors, DEFAULT_FONT
 from Functions.kdf import derive_key
 from Functions.salt import load_or_create_salt
 from Functions import encrypt, manager
@@ -18,6 +18,7 @@ LEGACY_KEY = BASE_DIR / "Data" / "secret.key"
 class EnterPasswordScreen:
     def __init__(self, ui):
         self.ui = ui
+        self.colors = get_colors()
         self.frame = self.ui.frame
         self.frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.9, relheight=0.9)
 
@@ -63,7 +64,7 @@ class EnterPasswordScreen:
             self.attempts_label = create_label(self.frame, f"Attempts left: {self.attempts_left}")
             self.attempts_label.place(relx=0.5, rely=0.39, anchor=CENTER)
 
-            self.submit_btn = add_buttons(self.frame, "Submit", command=self._submit)
+            self.submit_btn = add_buttons(self.frame, "Submit", command=self._submit, colors_dict=self.colors)
             self.submit_btn.place(relx=0.5, rely=0.48, anchor=CENTER, relwidth=0.4)
 
 
@@ -74,7 +75,7 @@ class EnterPasswordScreen:
             self.new_entry.place(relx=0.5, rely=0.33, anchor=CENTER)
             self.new_confirm = ctk.CTkEntry(self.frame, show="*", font=DEFAULT_FONT, width=300, placeholder_text="Confirm password")
             self.new_confirm.place(relx=0.5, rely=0.4, anchor=CENTER)
-            self.create_btn = add_buttons(self.frame, "Create Master Password", command=self._create_master)
+            self.create_btn = add_buttons(self.frame, "Create Master Password", command=self._create_master, colors_dict=self.colors)
             self.create_btn.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.5)
 
     def _submit(self):

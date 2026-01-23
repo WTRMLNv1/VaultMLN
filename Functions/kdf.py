@@ -1,3 +1,5 @@
+# Functions/kdf.py
+# This module provides a key derivation function to derive a symmetric key from a master password and salt.
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend

@@ -4,9 +4,10 @@ import customtkinter as ctk
 from ui.homepage import HomeScreen
 from ui.add_password import AddPasswordScreen
 from ui.enterPassword import EnterPasswordScreen
-from ui.vaultSettings import open_vault_settings
 from ui.popups import tell_unlock_required
 from ui.checkSite import siteCheckScreen
+from ui.settingsScreen import SettingsScreen
+from ui.deletePassword import deletePasswordScreen
 from customtkinter import CENTER
 import os
 import ctypes
@@ -41,11 +42,6 @@ class UI:
 
         self.root.mainloop()
     
-    def show_vault_settings(self):
-        if not self.master_password:
-            tell_unlock_required(self.root)
-            return
-        open_vault_settings(self.root, self.master_password)
 
     def show_screen(self, screen_name: str):
         # Clear content frame only
@@ -60,29 +56,11 @@ class UI:
             AddPasswordScreen(self)
         elif screen_name == "check_passwords":
             siteCheckScreen(self)
+        elif screen_name == "settings":
+            SettingsScreen(self)
+        elif screen_name == "delete_password":
+            deletePasswordScreen(self)
         else:
             ctk.CTkLabel(
                 self.frame, text=f"Unknown screen: {screen_name}"
             ).place(relx=0.5, rely=0.5, anchor="center")
-
-    def _prompt_master_password(self):
-        """Modal prompt to ask for the master password. Empty = use legacy key."""
-        win = ctk.CTkToplevel(self.root)
-        win.title("Enter Master Password")
-        win.geometry("400x150")
-        win.transient(self.root)
-        win.grab_set()
-
-        label = ctk.CTkLabel(win, text="Enter master password (leave empty to use file key)")
-        label.pack(pady=(20, 8))
-        entry = ctk.CTkEntry(win, show="*", width=300)
-        entry.pack(pady=(0, 12))
-
-        def submit():
-            self.master_password = entry.get() or None
-            win.grab_release()
-            win.destroy()
-
-        submit_btn = ctk.CTkButton(win, text="Submit", command=submit)
-        submit_btn.pack()
-        self.root.wait_window(win)

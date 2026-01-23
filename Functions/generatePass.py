@@ -1,5 +1,5 @@
 # generatePass.py
-# This script generates a symmetric encryption key and saves it to a file.
+# This script generates a symmetric encryption key and saves it to a file (Legacy file, not used in v1.0 +).
 from cryptography.fernet import Fernet
 from pathlib import Path
 

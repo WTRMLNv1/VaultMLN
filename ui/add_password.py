@@ -3,18 +3,26 @@
 from customtkinter import CTkFrame, CTkEntry, CENTER
 import customtkinter as ctk
 from PIL import Image
-from ui.popups import empty_fields_alert, password_mismatch_alert
-from ui.helpers import create_title, divider, frame, add_buttons, create_label, DEFAULT_FONT, ACCENT_COLOR, HOVER_COLOR, BASE_DIR
-from Functions.manager import store_json
-import os
+from ui.popups import empty_fields_alert, password_mismatch_alert, simple_alert, confirm_replace
+from ui.helpers import create_title, divider, frame, add_buttons, create_label, get_colors, home_button, DEFAULT_FONT, BASE_DIR
+from Functions.manager import store_json, list_sites, delete_site
+
 
 class AddPasswordScreen:
     def __init__(self, ui):
         self.ui = ui
         self.frame = self.ui.frame
         self.eye_open_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_open.png"), size=(20, 20))
-        self.eye_closed_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_closed.png"), size=(20, 20))
-        self.home_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/homebutton.png"))
+        self.colors = get_colors()
+        self.accent_color = self.colors["accent_color"]
+        self.hover_color = self.colors["hover_color"]
+        self.text_color = self.colors["text_color"]
+        if self.text_color == "white":
+            self.eye_open_img = ctk.CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/eye_open_white.png"), size=(20, 20))
+            self.eye_closed_img = ctk.CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/eye_closed_white.png"), size=(20, 20))
+        else:
+            self.eye_closed_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_closed.png"), size=(20, 20))
+            self.eye_open_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_open.png"), size=(20, 20))
         self.frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.9, relheight=0.9)
         self.add_widgets()
 
@@ -22,8 +30,7 @@ class AddPasswordScreen:
         self.title = create_title(self.frame, "Add New Password")
         self.title.place(relx=0.5, rely=0.05, anchor=CENTER)
 
-        self.home_button = ctk.CTkButton(self.frame, image=self.home_img, text="", font=ctk.CTkFont(size=12, family="Cascadia Code"), fg_color=ACCENT_COLOR, hover_color=HOVER_COLOR, corner_radius=20, cursor="hand2", command=lambda: self.ui.show_screen("home"))
-        self.home_button.place(relx=0.05, rely=0.05, anchor="w", relwidth=0.1)
+        self.home_button = home_button(self.frame, self.ui, self.accent_color, self.hover_color, self.text_color)
 
         self.divider = divider(self.frame)
         self.divider.place(relx=0.5, rely=0.1, anchor=CENTER)
@@ -52,10 +59,10 @@ class AddPasswordScreen:
         self.password_confirm_entry = ctk.CTkEntry(self.frame, placeholder_text="Re-enter your password", font=DEFAULT_FONT, show="*")
         self.password_confirm_entry.place(relx=0.05, rely=0.65, anchor="w", relwidth=0.8)
         
-        self.hide_button = ctk.CTkButton(self.frame, image=self.eye_closed_img, text="", width=30, height=30, fg_color=ACCENT_COLOR, hover_color=HOVER_COLOR, cursor="hand2", command=self.toggle_password)
+        self.hide_button = ctk.CTkButton(self.frame, image=self.eye_closed_img, text="", width=30, height=30, fg_color=self.accent_color, hover_color=self.hover_color, cursor="hand2", command=self.toggle_password)
         self.hide_button.place(relx=0.86, rely=0.5, anchor="w")
     
-        self.submit_button = add_buttons(self.frame, text="Submit", command=self.add_password)
+        self.submit_button = add_buttons(self.frame, text="Submit", command=self.add_password, colors_dict=self.colors)
         self.submit_button.place(relx=0.5, rely=0.8, anchor=CENTER, relwidth=0.3)
     def add_password(self):
         site = self.site_name_entry.get().strip()
@@ -69,11 +76,23 @@ class AddPasswordScreen:
             password_mismatch_alert(self.frame)
             return
         try:
+            # check for existing username on same site
+            sites = list_sites(self.ui.master_password)
+            existing = sites.get(site)
+            if existing:
+                # existing is a list of dicts with 'user' and 'password'
+                match = next((e for e in existing if e.get("user") == user), None)
+                if match:
+                    # ask user whether to replace
+                    replace = confirm_replace(self.frame, site, user)
+                    if not replace:
+                        return
+                    # delete only the matching entry
+                    deleted = delete_site(site, self.ui.master_password, username=user)
             store_json(site, user, pw, self.ui.master_password)
             self.ui.show_screen("home")
         except Exception as e:
-            print("Error storing password:", e)
-            return
+            simple_alert(self.frame, "Error", f"Failed to store password: {e}")
 
     def toggle_password(self):
         if self.password_entry.cget("show") == "":
