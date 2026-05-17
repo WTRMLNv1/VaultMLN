@@ -1,11 +1,9 @@
 # themeManager.py
 # Gets the themes from config.py
 import json
-import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace("\\", "/")
+from Functions import fileManager
 
-
-DATA_FILE = f"{BASE_DIR}/Data/themes.json"
+DATA_FILE = fileManager.data_path("themes.json")
 
 def ensure_config_file():
     try:

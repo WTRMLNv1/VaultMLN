@@ -3,7 +3,8 @@
 from customtkinter import CTkFrame, CTkEntry, CENTER
 import customtkinter as ctk
 from PIL import Image
-from ui.helpers import create_label, create_title, add_buttons, divider, frame, get_colors, home_button, BASE_DIR, DEFAULT_FONT, HOME_IMG, EYE_OPEN_IMG, EYE_CLOSED_IMG, EYE_CLOSED_IMG_LIGHT, EYE_OPEN_IMG_LIGHT
+from ui.helpers import create_label, create_title, add_buttons, divider, frame, get_colors, home_button, DEFAULT_FONT, HOME_IMG, EYE_OPEN_IMG, EYE_CLOSED_IMG, EYE_CLOSED_IMG_LIGHT, EYE_OPEN_IMG_LIGHT
+from Functions import fileManager
 from Functions.manager import list_sites, list_site_names, get_data, get_site_display_names
 from ui.popups import simple_alert
 import threading
@@ -97,13 +98,13 @@ class siteCheckScreen:
         if self.text_color == "white":
             self.eye_open_img = EYE_OPEN_IMG_LIGHT
             self.eye_closed_img = EYE_CLOSED_IMG_LIGHT
-            self.clipboard_img = ctk.CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/clipboard_white.png"))
-            self.tick_img = ctk.CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/tick_mark_white.png"))
+            self.clipboard_img = ctk.CTkImage(light_image=Image.open(fileManager.asset_path("clipboard_white.png")))
+            self.tick_img = ctk.CTkImage(light_image=Image.open(fileManager.asset_path("tick_mark_white.png")))
         else:
             self.eye_open_img = EYE_OPEN_IMG
             self.eye_closed_img = EYE_CLOSED_IMG
-            self.clipboard_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/clipboard.png"))
-            self.tick_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/tick_mark.png"))
+            self.clipboard_img = ctk.CTkImage(dark_image=Image.open(fileManager.asset_path("clipboard.png")))
+            self.tick_img = ctk.CTkImage(dark_image=Image.open(fileManager.asset_path("tick_mark.png")))
         self.frame.place(relx=0.5, rely=0.5, anchor = CENTER, relwidth=0.9, relheight=0.9)
         # load site names once and keep in memory while typing
         self.sites_resp = get_site_display_names(self.ui.master_password)

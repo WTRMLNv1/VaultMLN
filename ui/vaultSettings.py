@@ -8,9 +8,10 @@ from ui.popups import password_mismatch_alert, success_alert
 from pathlib import Path
 import json
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-CONFIG_PATH = BASE_DIR / "Data" / "config.json"
-PASSWORD_PATH = BASE_DIR / "Data" / "password.json"
+from Functions import fileManager
+
+CONFIG_PATH = fileManager.data_path("config.json")
+PASSWORD_PATH = fileManager.data_path("password.json")
 
 COLORS = get_colors()
 ACCENT_COLOR = COLORS['accent_color']

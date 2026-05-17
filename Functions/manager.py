@@ -7,12 +7,12 @@ import logging
 from typing import TypedDict
 from Functions import encrypt
 from Functions.salt import load_or_create_salt
+from Functions import fileManager
 
 logger = logging.getLogger(__name__)
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "Data"
-PASSWORD_FILE = DATA_DIR / "password.json"
+DATA_DIR = fileManager.get_data_dir()
+PASSWORD_FILE = fileManager.data_path("password.json")
 
 
 def _ensure_key(master_password: str | None = None):

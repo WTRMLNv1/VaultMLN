@@ -9,10 +9,11 @@ from cryptography.fernet import Fernet
 from pathlib import Path
 import json, os, threading, time
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-CONFIG_PATH = BASE_DIR / "Data" / "config.json"
-PASSWORD_PATH = BASE_DIR / "Data" / "password.json"
-LEGACY_KEY = BASE_DIR / "Data" / "secret.key"
+from Functions import fileManager
+
+CONFIG_PATH = fileManager.data_path("config.json")
+PASSWORD_PATH = fileManager.data_path("password.json")
+LEGACY_KEY = fileManager.data_path("secret.key")
 
 
 class EnterPasswordScreen:

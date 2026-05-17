@@ -3,15 +3,13 @@
 from cryptography.fernet import Fernet, InvalidToken
 from pathlib import Path
 from typing import Optional
-
 from Functions.kdf import derive_key
 from Functions.salt import load_or_create_salt
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 def _key_path():
-    return BASE_DIR / "Data" / "secret.key"
+    from Functions import fileManager
+    return fileManager.data_path("secret.key")
 
 
 def load_key():

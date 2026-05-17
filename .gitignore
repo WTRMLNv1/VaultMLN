@@ -1,0 +1,11 @@
+Data/*
+pycache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+dist/
+build/
+*.egg-info/
+*.egg
+*.exe

@@ -7,6 +7,7 @@ from customtkinter import CTkLabel, CTkButton, CTkImage, CTkFrame, CTkFont, CENT
 from PIL import Image
 from Functions.colorPicker import darker, ideal_text_color
 from Functions.themeManager import get_theme, set_theme
+from Functions import fileManager
 
 
 DEFAULT_FONT = ("Cascadia Code", 14)
@@ -14,13 +15,12 @@ FONT_20 = ("Cascadia Code", 20)
 ACCENT_COLOR = "#8B5CF6"
 HOVER_COLOR = "#6F49C4"
 FONT_COLOR = "#FFFFFF"
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace("\\", "/")
-HOME_IMG = CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/homebutton.png"))
-HOME_IMG_LIGHT = CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/homebutton_white.png"))
-EYE_OPEN_IMG = CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_open.png"), size=(20, 20))
-EYE_CLOSED_IMG = CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_closed.png"), size=(20, 20))
-EYE_OPEN_IMG_LIGHT = CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/eye_open_white.png"), size=(20, 20))
-EYE_CLOSED_IMG_LIGHT = CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/eye_closed_white.png"), size=(20, 20))
+HOME_IMG = CTkImage(dark_image=Image.open(fileManager.asset_path("homebutton.png")))
+HOME_IMG_LIGHT = CTkImage(light_image=Image.open(fileManager.asset_path("homebutton_white.png")))
+EYE_OPEN_IMG = CTkImage(dark_image=Image.open(fileManager.asset_path("eye_open.png")), size=(20, 20))
+EYE_CLOSED_IMG = CTkImage(dark_image=Image.open(fileManager.asset_path("eye_closed.png")), size=(20, 20))
+EYE_OPEN_IMG_LIGHT = CTkImage(light_image=Image.open(fileManager.asset_path("eye_open_white.png")), size=(20, 20))
+EYE_CLOSED_IMG_LIGHT = CTkImage(light_image=Image.open(fileManager.asset_path("eye_closed_white.png")), size=(20, 20))
 # ========= WIDGET HELPER FUNCTIONS ========== 
 def create_label(master: object, text:str, text_color="white" , size:int=14,font_family:str="Cascadia Code", image:object=None) -> object:
     """Creates a label with the text, font, color, and image provided on the parent provided

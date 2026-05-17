@@ -4,9 +4,8 @@ from customtkinter import CTkFrame, CTkLabel, CENTER
 from  ui.helpers import create_label, create_title, add_image, divider, frame, add_buttons, get_colors,DEFAULT_FONT, FONT_20
 from Functions.manager import list_site_names
 import os
+from Functions import fileManager
 
-# How to get parent directory
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace("\\", "/")
 
 class HomeScreen:
     def __init__(self, ui):
@@ -27,8 +26,7 @@ class HomeScreen:
         self.logoContainer = CTkFrame(master=self.frame, corner_radius=20, width=160, height=160)
         self.logoContainer.place(relx=0.05, rely=0.15, anchor="nw")
 
-        image_path = os.path.join(BASE_DIR,"assets","VaultMLN.png")
-        image_label = add_image(self.logoContainer, image_path, size=(150, 150))
+        image_label = add_image(self.logoContainer, fileManager.asset_path("VaultMLN.png"), size=(150, 150))
         image_label.place(relx=0.5, rely=0.5, anchor=CENTER)
 
         self.detailsContainer = frame(self.frame)

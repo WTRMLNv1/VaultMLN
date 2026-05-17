@@ -4,7 +4,8 @@ from customtkinter import CTkFrame, CTkEntry, CENTER
 import customtkinter as ctk
 from PIL import Image
 from ui.popups import empty_fields_alert, password_mismatch_alert, simple_alert, confirm_replace
-from ui.helpers import create_title, divider, frame, add_buttons, create_label, get_colors, home_button, DEFAULT_FONT, BASE_DIR
+from ui.helpers import create_title, divider, frame, add_buttons, create_label, get_colors, home_button, DEFAULT_FONT
+from Functions import fileManager
 from Functions.manager import store_json, list_sites, delete_site
 
 
@@ -12,17 +13,17 @@ class AddPasswordScreen:
     def __init__(self, ui):
         self.ui = ui
         self.frame = self.ui.frame
-        self.eye_open_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_open.png"), size=(20, 20))
+        self.eye_open_img = ctk.CTkImage(dark_image=Image.open(fileManager.asset_path("eye_open.png")), size=(20, 20))
         self.colors = get_colors()
         self.accent_color = self.colors["accent_color"]
         self.hover_color = self.colors["hover_color"]
         self.text_color = self.colors["text_color"]
         if self.text_color == "white":
-            self.eye_open_img = ctk.CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/eye_open_white.png"), size=(20, 20))
-            self.eye_closed_img = ctk.CTkImage(light_image=Image.open(f"{BASE_DIR}/assets/eye_closed_white.png"), size=(20, 20))
+            self.eye_open_img = ctk.CTkImage(light_image=Image.open(fileManager.asset_path("eye_open_white.png")), size=(20, 20))
+            self.eye_closed_img = ctk.CTkImage(light_image=Image.open(fileManager.asset_path("eye_closed_white.png")), size=(20, 20))
         else:
-            self.eye_closed_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_closed.png"), size=(20, 20))
-            self.eye_open_img = ctk.CTkImage(dark_image=Image.open(f"{BASE_DIR}/assets/eye_open.png"), size=(20, 20))
+            self.eye_closed_img = ctk.CTkImage(dark_image=Image.open(fileManager.asset_path("eye_closed.png")), size=(20, 20))
+            self.eye_open_img = ctk.CTkImage(dark_image=Image.open(fileManager.asset_path("eye_open.png")), size=(20, 20))
         self.frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.9, relheight=0.9)
         self.add_widgets()
 

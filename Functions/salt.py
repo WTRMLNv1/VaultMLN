@@ -1,9 +1,9 @@
 from pathlib import Path
 import os
 
-# Place salt in the project-level Data directory (PasswordManager/Data)
-BASE_DIR = Path(__file__).resolve().parent.parent
-SALT_PATH = BASE_DIR / "Data" / "salt.bin"
+# Place salt in the AppData Data directory
+from Functions import fileManager
+SALT_PATH = fileManager.data_path("salt.bin")
 
 
 def load_or_create_salt() -> bytes:

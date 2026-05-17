@@ -11,6 +11,7 @@ from ui.deletePassword import deletePasswordScreen
 from customtkinter import CENTER
 import os
 import ctypes
+from Functions import fileManager
 
 class UI:
     def __init__(self):
@@ -25,9 +26,9 @@ class UI:
 
         # Try to set icon safely
         try:
-            ico_path = os.path.join("assets", "VaultMLN-no-text.ico")
-            if os.path.exists(ico_path):
-                self.root.iconbitmap(ico_path)
+            ico_path = fileManager.asset_path("VaultMLN-no-text.ico")
+            if ico_path.exists():
+                self.root.iconbitmap(str(ico_path))
         except Exception:
             pass
 
