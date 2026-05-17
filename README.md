@@ -17,7 +17,8 @@ A minimal, secure password manager with a clean UI — fast, local, and battle-r
 - **New Delete Site screen** — Redesigned UI for deleting entries. Supports deleting a single entry or removing all entries for a site with confirmation modals. See [ui/deletePassword.py](ui/deletePassword.py).
 
 ## Screenshots
-Screenshots in previous releases show the look-and-feel; try the app to see the new theme and list formats.
+<img width="482" height="300" alt="image" src="https://github.com/user-attachments/assets/e2a1c505-819d-43a1-97ff-79b8f772267c" />
+<img width="478" height="299" alt="image" src="https://github.com/user-attachments/assets/26e8086f-4e7e-447b-ad84-2399a6eb4353" />
 
 ## Quick start
 
