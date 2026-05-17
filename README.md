@@ -1,5 +1,12 @@
 # VaultMLN
 
+<p>
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/version-badge.svg" alt="Version Badge">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/license-badge.svg" alt="License Badge">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/ui-badge.svg" alt="UI Badge">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/builtwith-badge.svg" alt="Built With Badge">
+</p>
+
 A minimal, secure password manager with a clean UI — fast, local, and battle-ready.
 
 ## Highlights
