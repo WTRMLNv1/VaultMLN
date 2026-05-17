@@ -9,6 +9,11 @@ A minimal, secure password manager with a clean UI — fast, local, and battle-r
 - Small, focused GUI: built from the `ui` package for quick add/search/delete flows.
 - Portable: single-folder project; run with Python.
 
+## How to run
+
+To run the app, go to the [releases](https://github.com/WTRMLNv1/VaultMLN/releases) page and download the latest version through the assets.
+**or click [here](https://github.com/WTRMLNv1/VaultMLN/releases/download/v1.1/VaultMLN.exe) to download instantly**
+
 ## What’s new (v1.1)
 
 - **Custom themes** — App themes and appearance settings are now supported. See [Functions/themeManager.py](Functions/themeManager.py) and the UI Settings screen ([ui/settingsScreen.py](ui/settingsScreen.py)).
@@ -17,8 +22,26 @@ A minimal, secure password manager with a clean UI — fast, local, and battle-r
 - **New Delete Site screen** — Redesigned UI for deleting entries. Supports deleting a single entry or removing all entries for a site with confirmation modals. See [ui/deletePassword.py](ui/deletePassword.py).
 
 ## Screenshots
-<img width="482" height="300" alt="image" src="https://github.com/user-attachments/assets/e2a1c505-819d-43a1-97ff-79b8f772267c" />
-<img width="478" height="299" alt="image" src="https://github.com/user-attachments/assets/26e8086f-4e7e-447b-ad84-2399a6eb4353" />
+## Screenshots
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/home_page.png" width="45%" />
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/enter_password.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/39687cf8-97e1-4430-9c4a-4700bbe99de5" width="45%" />
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/add_password.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/check_password.png" width="45%" />
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/delete_password.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/settings.png" width="45%" />
+</p>
 
 ## Quick start
 
@@ -28,6 +51,7 @@ Prerequisites:
 
 - Python 3.10+ (3.11 recommended)
 - `cryptography` and `customtkinter`
+
 
 Install the dependencies:
 
