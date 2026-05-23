@@ -1,66 +1,126 @@
 # VaultMLN
 
-<p>
-  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/version-badge.svg" alt="Version Badge">
-  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/license-badge.svg" alt="License Badge">
-  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/ui-badge.svg" alt="UI Badge">
-  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/builtwith-badge.svg" alt="Built With Badge">
+A [Melogne Studio](https://github.com/MelogneStudio?utm_source=chatgpt.com) project.
+
+<p align="left">
+  <a href="https://github.com/MelogneStudio">
+    <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/TrackMLN-assets/badges/studio-badge.svg" height="40">
+  </a>
 </p>
 
-A minimal, secure password manager with a clean UI — fast, local, and battle-ready.
+<p align="left">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/version-badge.svg" height="30">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/license-badge.svg" height="30">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/ui-badge.svg" height="30">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/badges/builtwith-badge.svg" height="30">
+</p>
 
-## Highlights
+VaultMLN is a lightweight Windows password vault focused on simplicity, local-first storage, and a clean desktop UI.
 
-- Local-first storage: all vault data lives in the `Data` folder.
-- Master-password derived keys: PBKDF2-HMAC-SHA256 derives a Fernet key from your master password.
-- Small, focused GUI: built from the `ui` package for quick add/search/delete flows.
-- Portable: single-folder project; run with Python.
+Built as an early Melogne Studio project, VaultMLN was designed to be fast, minimal, and easy to use without cloud accounts, subscriptions, or unnecessary complexity.
 
-## How to run
+> ℹ️ Windows only.
+> (because i was NOT about to debug cross-platform CustomTkinter issues at 2am)
 
-To run the app, go to the [releases](https://github.com/WTRMLNv1/VaultMLN/releases) page and download the latest version through the assets.
-**or click [here](https://github.com/WTRMLNv1/VaultMLN/releases/download/v1.1/VaultMLN.exe) to download instantly**
+---
 
-## What’s new (v1.1)
+## Features
 
-- **Custom themes** — App themes and appearance settings are now supported. See [Functions/themeManager.py](Functions/themeManager.py) and the UI Settings screen ([ui/settingsScreen.py](ui/settingsScreen.py)).
-- **Improved Check Site screen** — The search is faster and shows results in a clear format; when multiple entries exist for the same site the display shows entries as `{site} | {username}` so you can easily distinguish accounts.
-- **Add password: multi-entry support** — You can now add multiple entries for the same site as long as they have different usernames/emails (v1.0 would silently overwrite). If you try to add an entry whose `site` and `username` both match an existing entry, a modal prompts you to either replace the existing entry or cancel.
-- **New Delete Site screen** — Redesigned UI for deleting entries. Supports deleting a single entry or removing all entries for a site with confirmation modals. See [ui/deletePassword.py](ui/deletePassword.py).
+* Local-first encrypted password storage
+* Master-password derived encryption keys
+* Clean desktop UI built with CustomTkinter
+* Fast add/search/delete workflows
+* Multiple accounts per site support
+* Custom themes and appearance settings
+* Portable single-folder structure
+* Lightweight and offline by default
+
+---
+
+## Security
+
+VaultMLN uses:
+
+* **PBKDF2-HMAC-SHA256** for key derivation
+* **Fernet encryption** for vault data
+* Local salt generation and management
+* Master-password based encryption keys
+
+Your master password is never stored.
+
+All vault data stays inside the local `Data` folder on your machine.
+
+---
+
+## How To Download
+
+Grab the latest release from the Releases page:
+
+<p align="left">
+  <a href="https://github.com/WTRMLNv1/VaultMLN/releases">
+    <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/TrackMLN-assets/badges/releases-page.svg" height="30">
+  </a>
+</p>
+
+Or download directly:
+
+<p align="left">
+  <a href="https://github.com/WTRMLNv1/VaultMLN/releases/download/v1.1/VaultMLN.exe">
+    <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/TrackMLN-assets/badges/download_button.svg" height="30">
+  </a>
+</p>
+
+---
+
+## What's New — v1.1
+
+* Added custom themes and appearance settings
+* Improved Check Site search speed and formatting
+* Added multi-entry support for the same site
+* Added duplicate-entry detection and replace confirmation
+* Redesigned Delete Site screen and delete confirmation flow
+* Improved overall UI consistency and usability
+
+---
 
 ## Screenshots
-## Screenshots
+
+### Main UI
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/home_page.png" width="45%" />
   <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/enter_password.png" width="45%" />
 </p>
 
+---
+
+### Vault Management
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/39687cf8-97e1-4430-9c4a-4700bbe99de5" width="45%" />
   <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/add_password.png" width="45%" />
-</p>
-
-<p align="center">
   <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/check_password.png" width="45%" />
-  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/delete_password.png" width="45%" />
 </p>
 
+---
+
+### Settings & Deletion
+
 <p align="center">
+  <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/delete_password.png" width="45%" />
   <img src="https://raw.githubusercontent.com/WTRMLNv1/WTRMLNv1/main/VaultMLN-assets/settings.png" width="45%" />
 </p>
 
-## Quick start
+---
 
-Latest release builds may be available in releases. To run from source:
+## Quick Start
 
-Prerequisites:
+### Requirements
 
-- Python 3.10+ (3.11 recommended)
-- `cryptography` and `customtkinter`
+* Python 3.10+
+* `cryptography`
+* `customtkinter`
 
-
-Install the dependencies:
+Install dependencies:
 
 ```bash
 pip install cryptography customtkinter
@@ -72,54 +132,96 @@ Run the app:
 python main.py
 ```
 
-This launches the UI and walks you through entering your master password and using the vault.
+---
 
-## Typical workflow
+## Typical Workflow
 
-- Start with `python main.py`.
-- Enter your master password (not stored) to unlock the vault.
-- Use the Add screen to create new entries. The app permits multiple entries for the same site as long as usernames differ; if the site and username exactly match an existing entry you'll be prompted to replace or cancel.
-- Use Check Site to search. If multiple accounts exist for a site, results are shown as `{site} | {username}`.
-- Use Delete Site to remove a single account or all accounts for a site; confirmations prevent accidental loss.
+* Launch the app
+* Enter your master password
+* Add new entries
+* Search saved accounts
+* Delete individual or grouped entries
+* Customize themes and settings
 
-## Important files
+VaultMLN supports multiple accounts for the same site as long as usernames differ.
 
-- [main.py](main.py) — application entry point.
-- [Functions/encrypt.py](Functions/encrypt.py) — encryption/decryption helpers (Fernet).
-- [Functions/kdf.py](Functions/kdf.py) — PBKDF2 key derivation.
-- [Functions/salt.py](Functions/salt.py) — salt management; salt stored at `Data/salt.bin`.
-- [Functions/generatePass.py](Functions/generatePass.py) — helper to generate a legacy `Data/secret.key` (legacy; not required normally).
-- [Functions/manager.py](Functions/manager.py) — high-level password manager logic.
-- [Functions/themeManager.py](Functions/themeManager.py) — theme handling and preferences.
-- [ui/add_password.py](ui/add_password.py) — Add-entry screen with duplicate checks.
-- [ui/checkSite.py](ui/checkSite.py) — improved search and result formatting.
-- [ui/deletePassword.py](ui/deletePassword.py) — Delete screen and delete-confirm flows.
-- [ui/settingsScreen.py](ui/settingsScreen.py) — theme and settings UI.
+---
 
-## Security notes
+## Important Files
 
-- Salt is created at `Data/salt.bin` and used with PBKDF2 for key derivation.
-- The master password is used to derive the encryption key and is not stored.
-- A legacy `Data/secret.key` file may be created by older workflows; prefer the master-password derivation.
-- Keep your `Data` folder secure and back it up if you need to migrate your vault.
+```text
+.
+├─ Functions/
+│  ├─ encrypt.py
+│  ├─ kdf.py
+│  ├─ manager.py
+│  ├─ themeManager.py
+│  └─ salt.py
+│
+├─ ui/
+│  ├─ add_password.py
+│  ├─ checkSite.py
+│  ├─ deletePassword.py
+│  └─ settingsScreen.py
+│
+├─ Data/
+│  ├─ salt.bin
+│  └─ vault data
+│
+└─ main.py
+```
+
+---
+
+## Security Notes
+
+* Salt is stored locally in `Data/salt.bin`
+* Encryption keys are derived from the master password
+* VaultMLN does not use cloud sync
+* Your data never leaves your machine
+* Back up your `Data` folder if you want to migrate your vault
+
+---
+
+## Current Status
+
+VaultMLN is considered complete and archived.
+
+TrackMLN became the primary active Melogne Studio project afterward, but VaultMLN remains fully functional and available.
+
+---
 
 ## Development
 
-- To inspect how encryption works, see [Functions/encrypt.py](Functions/encrypt.py) and [Functions/kdf.py](Functions/kdf.py).
-- To generate the legacy key file (not required for normal operation):
+Run normally:
+
+```bash
+python main.py
+```
+
+Generate the legacy key file manually if needed:
 
 ```bash
 python -c "from Functions.generatePass import generate_key; generate_key()"
 ```
 
-If you're working on themes, inspect [Functions/themeManager.py](Functions/themeManager.py) and [ui/settingsScreen.py](ui/settingsScreen.py).
+---
 
 ## Contributing
 
-Contributions welcome — open an issue or a PR. For security-sensitive changes, please keep changes small and request review.
+Contributions, fixes, and improvements are welcome.
+
+If you're making security-sensitive changes, keep PRs focused and easy to review.
+
+---
 
 ## License
 
-MIT Licence. Feel free to edit and modify.
+MIT License.
 
-Made with ❤️, Debugged with 😭 by [WTRMLN](https://github.com/WTRMLNv1)
+Free to use, modify, and learn from.
+
+---
+
+Made with 💚, Debugged with 😭 by [WTRMLN](https://github.com/WTRMLNv1)
+© 2026 Melogne Studio
