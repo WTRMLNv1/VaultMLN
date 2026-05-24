@@ -9,3 +9,8 @@ build/
 *.egg-info/
 *.egg
 *.exe
+node_modules/
+.npm-cache/
+dist/
+src-tauri/target/
+src-tauri/gen/
