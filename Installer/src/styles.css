@@ -1,0 +1,448 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0C0D11;
+  --surface: #13151C;
+  --surface2: #1A1D27;
+  --surface3: #222636;
+  --border: #2A2D3E;
+  --border2: #373B52;
+  --accent: #8B5CF6;
+  --text: #F0F1F8;
+  --muted: #7B7F96;
+  --muted2: #555870;
+  --danger: #EF4444;
+  --success: #10B981;
+  font-family: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.titlebar {
+  height: 46px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px 0 16px;
+  user-select: none;
+}
+
+.titlebar-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.titlebar-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: rgba(139, 92, 246, 0.13);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.titlebar-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.titlebar-version {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: "Cascadia Code", monospace;
+  padding: 2px 7px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.titlebar-close {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.titlebar-close:hover {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+.screen {
+  height: 100%;
+  padding: 30px;
+}
+
+.welcome-screen {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 30px;
+}
+
+.welcome-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-icon-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  background: rgba(139, 92, 246, 0.13);
+  border: 1px solid rgba(139, 92, 246, 0.32);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.app-name {
+  font-size: 25px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  margin-bottom: 6px;
+}
+
+.app-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.app-meta {
+  display: grid;
+  gap: 9px;
+  margin-top: 26px;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.meta-label,
+.option-label {
+  color: var(--muted2);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.meta-value {
+  color: var(--text);
+  font-family: "Cascadia Code", monospace;
+}
+
+.already-badge {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.24);
+  color: var(--success);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.welcome-right {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  justify-content: center;
+}
+
+.options-section {
+  display: grid;
+  gap: 10px;
+}
+
+.path-display,
+.path-input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.path-display {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  text-align: left;
+}
+
+.path-display:hover,
+.path-input:focus {
+  border-color: var(--accent);
+}
+
+.path-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-family: "Cascadia Code", monospace;
+  font-size: 12px;
+}
+
+.path-edit {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.path-input {
+  outline: none;
+  padding: 0 12px;
+  font-family: "Cascadia Code", monospace;
+  font-size: 12px;
+}
+
+.toggle-row {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.toggle-track {
+  width: 40px;
+  height: 22px;
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: var(--surface2);
+  padding: 2px;
+  cursor: pointer;
+}
+
+.toggle-track.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle-thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transform: translateX(0);
+  transition: transform 0.16s ease;
+}
+
+.toggle-track.on .toggle-thumb {
+  transform: translateX(17px);
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.action-row.centered {
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.btn-ghost,
+.btn-install {
+  height: 40px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ghost {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+}
+
+.btn-install {
+  background: var(--accent);
+  border: 0;
+  color: white;
+}
+
+.btn-install:hover {
+  opacity: 0.9;
+}
+
+.center-screen {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.spinner-wrap,
+.done-icon,
+.error-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.spinner-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  border-top-color: var(--accent);
+  animation: spin 0.9s linear infinite;
+}
+
+.spinner-icon,
+.done-icon,
+.error-icon {
+  color: var(--accent);
+  background: rgba(139, 92, 246, 0.13);
+  border: 1px solid rgba(139, 92, 246, 0.32);
+  border-radius: 18px;
+}
+
+.done-icon {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+.error-icon {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.28);
+}
+
+.status-title {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.status-sub,
+.error-msg {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.error-msg {
+  max-width: 430px;
+  overflow-wrap: anywhere;
+}
+
+.progress-track {
+  width: 340px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  margin: 22px auto 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 0.18s ease;
+}
+
+.progress-pct {
+  font-family: "Cascadia Code", monospace;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.done-path {
+  display: block;
+  max-width: 430px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: "Cascadia Code", monospace;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
