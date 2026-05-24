@@ -14,3 +14,4 @@ node_modules/
 dist/
 src-tauri/target/
 src-tauri/gen/
+vaultmln_redesign.html
