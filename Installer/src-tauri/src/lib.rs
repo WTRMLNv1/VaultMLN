@@ -11,7 +11,7 @@ pub struct InstallerConfig {
     pub description: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct InstallProgress {
     pub step: String,
     pub percent: u32,
@@ -28,7 +28,7 @@ pub enum InstallError {
 }
 
 impl Serialize for InstallError {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
@@ -38,88 +38,92 @@ impl Serialize for InstallError {
 
 type Result<T> = std::result::Result<T, InstallError>;
 
-#[tauri::command]
-pub fn get_config(app: tauri::AppHandle) -> Result<InstallerConfig> {
-    let resource_path = assets_dir(&app)?.join("installer_config.json");
-    let raw = fs::read_to_string(&resource_path)?;
-    Ok(serde_json::from_str(&raw)?)
-}
+mod commands {
+    use super::*;
 
-#[tauri::command]
-pub fn get_default_install_path() -> String {
-    let program_files = std::env::var("ProgramFiles").unwrap_or_else(|_| "C:\\Program Files".to_string());
-    format!("{}\\VaultMLN", program_files)
-}
-
-#[tauri::command]
-pub fn check_existing_install() -> bool {
-    Path::new(&get_default_install_path()).join("VaultMLN.exe").exists()
-}
-
-#[tauri::command]
-pub async fn run_install(
-    app: tauri::AppHandle,
-    install_path: String,
-    create_desktop_shortcut: bool,
-    create_start_menu_shortcut: bool,
-) -> Result<()> {
-    let config = get_config(app.clone())?;
-    emit_progress(&app, "Creating install directory...", 10);
-    let install_dir = PathBuf::from(&install_path);
-    fs::create_dir_all(&install_dir)?;
-
-    emit_progress(&app, "Copying application files...", 30);
-    let src_exe = assets_dir(&app)?.join("app").join("VaultMLN.exe");
-    let dst_exe = install_dir.join("VaultMLN.exe");
-
-    if !src_exe.exists() {
-        return Err(InstallError::Other(
-            "VaultMLN.exe not found. Place it at Installer/assets/app/VaultMLN.exe".to_string(),
-        ));
+    #[tauri::command]
+    pub fn get_config(app: tauri::AppHandle) -> Result<InstallerConfig> {
+        let resource_path = assets_dir(&app)?.join("installer_config.json");
+        let raw = fs::read_to_string(&resource_path)?;
+        Ok(serde_json::from_str(&raw)?)
     }
 
-    fs::copy(&src_exe, &dst_exe)?;
+    #[tauri::command]
+    pub fn get_default_install_path() -> String {
+        let program_files = std::env::var("ProgramFiles").unwrap_or_else(|_| "C:\\Program Files".to_string());
+        format!("{}\\VaultMLN", program_files)
+    }
 
-    emit_progress(&app, "Writing version info...", 50);
-    fs::write(
-        install_dir.join("installer_config.json"),
-        serde_json::to_string_pretty(&config)?,
-    )?;
+    #[tauri::command]
+    pub fn check_existing_install() -> bool {
+        Path::new(&get_default_install_path()).join("VaultMLN.exe").exists()
+    }
 
-    if create_desktop_shortcut {
-        emit_progress(&app, "Creating desktop shortcut...", 65);
-        create_shortcut_windows(
-            &dst_exe,
-            &desktop_path().join("VaultMLN.lnk"),
-            "VaultMLN - Password Manager",
+    #[tauri::command]
+    pub async fn run_install(
+        app: tauri::AppHandle,
+        install_path: String,
+        create_desktop_shortcut: bool,
+        create_start_menu_shortcut: bool,
+    ) -> Result<()> {
+        let config = get_config(app.clone())?;
+        emit_progress(&app, "Creating install directory...", 10);
+        let install_dir = PathBuf::from(&install_path);
+        fs::create_dir_all(&install_dir)?;
+
+        emit_progress(&app, "Copying application files...", 30);
+        let src_exe = assets_dir(&app)?.join("app").join("VaultMLN.exe");
+        let dst_exe = install_dir.join("VaultMLN.exe");
+
+        if !src_exe.exists() {
+            return Err(InstallError::Other(
+                "VaultMLN.exe not found. Place it at Installer/assets/app/VaultMLN.exe".to_string(),
+            ));
+        }
+
+        fs::copy(&src_exe, &dst_exe)?;
+
+        emit_progress(&app, "Writing version info...", 50);
+        fs::write(
+            install_dir.join("installer_config.json"),
+            serde_json::to_string_pretty(&config)?,
         )?;
+
+        if create_desktop_shortcut {
+            emit_progress(&app, "Creating desktop shortcut...", 65);
+            create_shortcut_windows(
+                &dst_exe,
+                &desktop_path().join("VaultMLN.lnk"),
+                "VaultMLN - Password Manager",
+            )?;
+        }
+
+        if create_start_menu_shortcut {
+            emit_progress(&app, "Creating Start Menu entry...", 75);
+            let start_menu_dir = start_menu_path().join("VaultMLN");
+            fs::create_dir_all(&start_menu_dir)?;
+            create_shortcut_windows(
+                &dst_exe,
+                &start_menu_dir.join("VaultMLN.lnk"),
+                "VaultMLN - Password Manager",
+            )?;
+        }
+
+        emit_progress(&app, "Registering uninstaller...", 88);
+        write_uninstall_registry(&config, &install_dir, &dst_exe)?;
+
+        emit_progress(&app, "Done.", 100);
+        Ok(())
     }
 
-    if create_start_menu_shortcut {
-        emit_progress(&app, "Creating Start Menu entry...", 75);
-        let start_menu_dir = start_menu_path().join("VaultMLN");
-        fs::create_dir_all(&start_menu_dir)?;
-        create_shortcut_windows(
-            &dst_exe,
-            &start_menu_dir.join("VaultMLN.lnk"),
-            "VaultMLN - Password Manager",
-        )?;
+    #[tauri::command]
+    pub fn launch_app(install_path: String) -> Result<()> {
+        let exe = PathBuf::from(&install_path).join("VaultMLN.exe");
+        std::process::Command::new(&exe)
+            .spawn()
+            .map_err(|error| InstallError::Other(format!("Failed to launch: {error}")))?;
+        Ok(())
     }
-
-    emit_progress(&app, "Registering uninstaller...", 88);
-    write_uninstall_registry(&config, &install_dir, &dst_exe)?;
-
-    emit_progress(&app, "Done.", 100);
-    Ok(())
-}
-
-#[tauri::command]
-pub fn launch_app(install_path: String) -> Result<()> {
-    let exe = PathBuf::from(&install_path).join("VaultMLN.exe");
-    std::process::Command::new(&exe)
-        .spawn()
-        .map_err(|error| InstallError::Other(format!("Failed to launch: {error}")))?;
-    Ok(())
 }
 
 fn emit_progress(app: &tauri::AppHandle, step: &str, percent: u32) {
@@ -219,11 +223,11 @@ fn write_uninstall_registry(config: &InstallerConfig, install_dir: &Path, exe: &
 pub fn run() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            get_config,
-            get_default_install_path,
-            check_existing_install,
-            run_install,
-            launch_app,
+            commands::get_config,
+            commands::get_default_install_path,
+            commands::check_existing_install,
+            commands::run_install,
+            commands::launch_app,
         ])
         .run(tauri::generate_context!())
         .expect("error running installer");

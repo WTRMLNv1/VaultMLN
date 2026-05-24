@@ -30,7 +30,7 @@
     "targets": ["nsis"],
     "icon": ["icons/icon.ico"],
     "resources": {
-      "assets/": "assets/"
+      "../assets/": "assets/"
     },
     "windows": {
       "nsis": {
