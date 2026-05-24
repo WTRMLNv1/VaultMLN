@@ -1,5 +1,8 @@
-use base64::{engine::general_purpose::URL_SAFE, Engine as _};
-use fernet::Fernet;
+use aes_gcm::{
+    aead::{Aead, KeyInit},
+    Aes256Gcm, Nonce,
+};
+use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine as _};
 use pbkdf2::pbkdf2_hmac;
 use rand::{rngs::OsRng, RngCore};
 use serde::{Deserialize, Serialize};
@@ -14,6 +17,8 @@ use thiserror::Error;
 
 const APP_NAME: &str = "VaultMLN";
 const ITERATIONS: u32 = 390_000;
+const TOKEN_PREFIX: &str = "vmln2.";
+const NONCE_LEN: usize = 12;
 
 #[derive(Debug, Error)]
 enum VaultError {
@@ -95,7 +100,7 @@ fn load_or_create_salt() -> VaultResult<Vec<u8>> {
     fs::read(path).map_err(|error| VaultError::Io(error.to_string()))
 }
 
-fn fernet_for(master_password: &str) -> VaultResult<Fernet> {
+fn derive_key(master_password: &str) -> VaultResult<[u8; 32]> {
     if master_password.trim().is_empty() {
         return Err(VaultError::MissingMasterPassword);
     }
@@ -103,17 +108,44 @@ fn fernet_for(master_password: &str) -> VaultResult<Fernet> {
     let salt = load_or_create_salt()?;
     let mut key = [0u8; 32];
     pbkdf2_hmac::<Sha256>(master_password.as_bytes(), &salt, ITERATIONS, &mut key);
-    let encoded = URL_SAFE.encode(key);
-    Fernet::new(&encoded).ok_or_else(|| VaultError::Data("Could not create encryption key.".into()))
+    Ok(key)
 }
 
 fn encrypt_message(message: &str, master_password: &str) -> VaultResult<String> {
-    Ok(fernet_for(master_password)?.encrypt(message.as_bytes()))
+    let key = derive_key(master_password)?;
+    let cipher = Aes256Gcm::new_from_slice(&key)
+        .map_err(|_| VaultError::Data("Could not create encryption key.".into()))?;
+    let mut nonce_bytes = [0u8; NONCE_LEN];
+    OsRng.fill_bytes(&mut nonce_bytes);
+    let ciphertext = cipher
+        .encrypt(Nonce::from_slice(&nonce_bytes), message.as_bytes())
+        .map_err(|_| VaultError::Data("Encryption failed.".into()))?;
+
+    let mut token = Vec::with_capacity(NONCE_LEN + ciphertext.len());
+    token.extend_from_slice(&nonce_bytes);
+    token.extend_from_slice(&ciphertext);
+
+    Ok(format!("{TOKEN_PREFIX}{}", URL_SAFE_NO_PAD.encode(token)))
 }
 
 fn decrypt_message(token: &str, master_password: &str) -> VaultResult<String> {
-    let plaintext = fernet_for(master_password)?
-        .decrypt(token)
+    let encoded = token
+        .strip_prefix(TOKEN_PREFIX)
+        .ok_or(VaultError::DecryptionFailed)?;
+    let token_bytes = URL_SAFE_NO_PAD
+        .decode(encoded.as_bytes())
+        .map_err(|_| VaultError::DecryptionFailed)?;
+
+    if token_bytes.len() <= NONCE_LEN {
+        return Err(VaultError::DecryptionFailed);
+    }
+
+    let key = derive_key(master_password)?;
+    let cipher = Aes256Gcm::new_from_slice(&key)
+        .map_err(|_| VaultError::Data("Could not create encryption key.".into()))?;
+    let (nonce_bytes, ciphertext) = token_bytes.split_at(NONCE_LEN);
+    let plaintext = cipher
+        .decrypt(Nonce::from_slice(nonce_bytes), ciphertext)
         .map_err(|_| VaultError::DecryptionFailed)?;
     String::from_utf8(plaintext).map_err(|error| VaultError::Data(error.to_string()))
 }

@@ -13,9 +13,9 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
+aes-gcm = "0.10"
 base64 = "0.22"
-fernet = "0.2"
-openssl = { version = "0.10", features = ["vendored"] }
+hmac = "0.12"
 pbkdf2 = "0.12"
 rand = "0.8"
 serde = { version = "1", features = ["derive"] }
