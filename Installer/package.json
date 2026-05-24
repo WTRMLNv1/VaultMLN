@@ -1,0 +1,21 @@
+{
+  "name": "vaultmln-installer",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "set CHOKIDAR_USEPOLLING=true&& vite --port 1421 --strictPort",
+    "build": "vite build",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0",
+    "typescript": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

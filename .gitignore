@@ -14,4 +14,9 @@ node_modules/
 dist/
 src-tauri/target/
 src-tauri/gen/
+Installer/node_modules/
+Installer/dist/
+Installer/src-tauri/target/
+Installer/src-tauri/gen/
+Installer/assets/app/VaultMLN.exe
 vaultmln_redesign.html
